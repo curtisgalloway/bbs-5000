@@ -1,0 +1,13 @@
+{
+  "name": "@bbs-5000/core",
+  "private": true,
+  "version": "0.0.0",
+  "description": "BBS-5000 board logic: schema, act, audit, actions, tool definitions. No Cloudflare imports.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./node-sqlite": "./src/node-sqlite.ts",
+    "./local-dir-sink": "./src/local-dir-sink.ts"
+  }
+}

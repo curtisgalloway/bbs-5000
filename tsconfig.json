@@ -1,0 +1,25 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": [
+    "packages/core/src",
+    "packages/core/test",
+    "packages/worker/test",
+    "packages/cli/src",
+    "packages/cli/test",
+    "packages/adapter/src",
+    "packages/adapter/test",
+    "scripts/setup",
+    "test/e2e",
+    "test/manual",
+    "vitest.config.ts",
+    "vitest.e2e.config.ts"
+  ],
+  "exclude": [
+    "packages/worker/test/host-routing.test.ts",
+    "packages/worker/test/web-session.test.ts",
+    "packages/worker/test/oauth-routes.test.ts"
+  ]
+}

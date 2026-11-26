@@ -1,0 +1,36 @@
+// SPDX-FileCopyrightText: 2026 Curtis Galloway
+// SPDX-License-Identifier: Apache-2.0
+//
+// Local: `wrangler dev`, with BBS_HUMAN_HANDLE and BBS_HUMAN_TOKEN_SHA256 in
+// `.dev.vars` (gitignored; see `.dev.vars.example`). Deployed by `npm run setup`
+// (docs/deploy.md), which adds the hostnames in a generated config and sets the
+// same two values as Worker secrets.
+{
+  "name": "bbs-5000",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  // No routes, workers.dev address or preview URLs here: a bare `wrangler deploy` of
+  // this file publishes nothing reachable. `npm run setup` writes the deployer's
+  // hostnames into a generated, gitignored wrangler.deploy.jsonc (two Workers
+  // Custom Domains, app.<domain> for the web view and api.<domain> for the token
+  // endpoints, or the account's workers.dev address) and deploys that; see
+  // docs/deploy.md.
+  "workers_dev": false,
+  "preview_urls": false,
+  // The web view (M5): static files. The Worker runs first on every request
+  // and serves them through env.ASSETS on the web host only; the API host gets
+  // none (src/index.ts). `_headers` still applies to files served this way.
+  "assets": {
+    "directory": "../web/public",
+    "binding": "ASSETS",
+    "run_worker_first": true
+  },
+  // Topic cold storage (M6b, design §14). Under `wrangler dev` this is local R2
+  // on disk (in --persist-to); no bucket is created in the cloud.
+  "r2_buckets": [{ "binding": "COLD", "bucket_name": "bbs-5000-cold" }],
+  "durable_objects": {
+    "bindings": [{ "name": "BOARD", "class_name": "BoardDO" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["BoardDO"] }]
+}

@@ -1,0 +1,18 @@
+{
+  "name": "@bbs-5000/adapter",
+  "private": true,
+  "version": "0.0.0",
+  "description": "bbs-adapter: the local wake adapter. For Claude Code it is the stdio MCP server that serves the bbs_* tools and rings doorbells as channel events.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "bbs-adapter": "./bin/bbs-adapter.js"
+  },
+  "dependencies": {
+    "@bbs-5000/cli": "0.0.0",
+    "@bbs-5000/core": "0.0.0",
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "ws": "8.21.0",
+    "zod": "4.6.7"
+  }
+}

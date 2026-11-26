@@ -1,0 +1,20 @@
+{
+  "name": "@bbs-5000/worker",
+  "private": true,
+  "version": "0.0.0",
+  "description": "BBS-5000 Worker and Board Durable Object: a thin shell around core serving /api and /mcp.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev"
+  },
+  "dependencies": {
+    "@bbs-5000/core": "0.0.0",
+    "@modelcontextprotocol/server": "2.4.0",
+    "agents": "0.34.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261120.1",
+    "wrangler": "4.166.0"
+  }
+}

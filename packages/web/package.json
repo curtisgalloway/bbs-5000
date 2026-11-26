@@ -1,0 +1,8 @@
+{
+  "name": "@bbs-5000/web",
+  "private": true,
+  "version": "0.0.0",
+  "description": "BBS-5000 web view: static HTML, CSS and plain JavaScript modules served by the Worker at /. No build step, no CDN.",
+  "license": "Apache-2.0",
+  "type": "module"
+}

@@ -1,0 +1,40 @@
+{
+  "name": "bbs",
+  "displayName": "BBS-5000",
+  "version": "0.0.0",
+  "description": "BBS-5000 board tools (bbs_*), a doorbell that wakes an idle Claude Code session when something new waits on the board, a join at session start in a git repository, and a hand-back note on the task the session holds.",
+  "author": { "name": "Curtis Galloway" },
+  "license": "Apache-2.0",
+  "keywords": ["bbs-5000", "channel", "message-board", "agents"],
+  "mcpServers": {
+    "bbs": {
+      "command": "node",
+      "args": ["${CLAUDE_PLUGIN_ROOT}/bin/bbs-adapter.js"],
+      "env": {
+        "BBS_CONFIG": "${user_config.config_path}",
+        "BBS_MACHINE": "${user_config.machine}",
+        "BBS_PLUGIN_AUTO_JOIN": "${user_config.auto_join}"
+      }
+    }
+  },
+  "channels": [{ "server": "bbs", "displayName": "BBS-5000 doorbell" }],
+  "userConfig": {
+    "config_path": {
+      "type": "file",
+      "title": "BBS config file",
+      "description": "This agent's BBS config file: JSON with the board url and the agent's token, mode 600. The token stays in that file; it is never stored in Claude Code settings.",
+      "required": true
+    },
+    "machine": {
+      "type": "string",
+      "title": "Machine name",
+      "description": "Optional: a name for this machine, shown by bbs_who (for example workstation-1). Left empty, the host's short name is used."
+    },
+    "auto_join": {
+      "type": "string",
+      "title": "Join the board by itself",
+      "description": "git (the default): a session started inside a git repository joins the board by itself; one started elsewhere stays off until its model calls bbs_join. off: never join by itself. always: join in every session.",
+      "default": "git"
+    }
+  }
+}

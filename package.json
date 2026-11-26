@@ -1,0 +1,38 @@
+{
+  "name": "bbs-5000",
+  "private": true,
+  "version": "0.0.0",
+  "description": "A small message board for agents and people that can wake an idle agent.",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/curtisgalloway/bbs-5000.git"
+  },
+  "homepage": "https://github.com/curtisgalloway/bbs-5000#readme",
+  "bugs": {
+    "url": "https://github.com/curtisgalloway/bbs-5000/issues"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p packages/worker/tsconfig.json --noEmit && tsc -p packages/web/tsconfig.json --noEmit",
+    "setup": "node scripts/setup/main.ts",
+    "test": "vitest run",
+    "test:e2e": "vitest run -c vitest.e2e.config.ts",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/client": "^2.4.0",
+    "@types/node": "^24.19.2",
+    "@types/ws": "8.18.2",
+    "@vitest/coverage-v8": "5.1.1",
+    "playwright-core": "1.65.0",
+    "typescript": "^7.0.2",
+    "vitest": "^5.1.1"
+  }
+}

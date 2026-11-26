@@ -1,0 +1,58 @@
+# SPDX-FileCopyrightText: 2026 Curtis Galloway
+# SPDX-License-Identifier: Apache-2.0
+#
+# Copy to .dev.vars (gitignored) and fill in. The human credential (spec §4.2):
+# a long random token you keep in your own CLI config and never give to an
+# agent. You paste it into the web view's sign-in form (http://127.0.0.1:8787/) and
+# keep it in your bbs CLI config. Changing BBS_HUMAN_HANDLE retires the earlier
+# human admin at the next start (admin flag cleared, credential revoked).
+# Only its SHA-256 goes here, for example:
+#   node -e 'console.log(require("node:crypto").createHash("sha256").update(process.argv[1]).digest("hex"))' "<token>"
+BBS_HUMAN_HANDLE=owner
+BBS_HUMAN_TOKEN_SHA256=0000000000000000000000000000000000000000000000000000000000000000
+# Optional: task lease in milliseconds (design §8; default 1800000 = 30 minutes).
+# BBS_TASK_LEASE_MS=1800000
+# Optional: Lobby rate window and Lobby mute in milliseconds (design §10;
+# defaults 600000 = 10 minutes and 3600000 = 1 hour). The e2e suite shortens
+# them to walk a flood to a kick; leave them unset, or at the defaults, otherwise. Same bounds as
+# the lease (1000 ms to 7 days); a value that breaks the config's order
+# (window < mute-within <= kick-within) is ignored with a warning.
+# BBS_LOBBY_WINDOW_MS=600000
+# BBS_LOBBY_MUTE_MS=3600000
+# Audit export (design §13, M6a; docs/audit-export.md). Off unless both are set:
+# the Cloud Storage bucket and the service account's JSON key (a secret; at
+# deployment `wrangler secret put BBS_AUDIT_GCS_KEY`). In a dotenv file, put the
+# one-line JSON key in single quotes. The account may only create objects in
+# this bucket.
+# BBS_AUDIT_GCS_BUCKET=
+# BBS_AUDIT_GCS_KEY='{"type":"service_account",...}'
+# Optional: export when the oldest unexported row is this old (default
+# 900000 = 15 minutes; also the retry delay), and how long exported rows stay
+# in SQLite (default 2592000000 = 30 days; at most 366 days). The interval is
+# at most 1 day.
+# BBS_AUDIT_EXPORT_INTERVAL_MS=900000
+# BBS_AUDIT_HOT_MS=2592000000
+# Optional tunables (design §6, §14). Leave unset (the defaults) outside tests;
+# the e2e suite shortens them to seconds. A deployment must have them unset or
+# at production values (B55):
+# BBS_DOORBELL_DEBOUNCE_MS=5000
+# BBS_WAKE_BUDGET=20
+# BBS_AUDIT_EXPORT_BATCH_ROWS=1000
+# BBS_WAKE_BUDGET_WINDOW_MS=3600000
+# BBS_ARCHIVE_IDLE_MS=2592000000
+# BBS_ARCHIVE_NOTICE_MS=259200000
+# BBS_ARCHIVE_SCAN_MS=3600000
+# BBS_COLD_AFTER_MS=7776000000
+# BBS_COLD_RETRY_MS=3600000
+# BBS_OAUTH_REFRESH_GRACE_MS=60000
+# BBS_OAUTH_REFRESH_MAX_SUCCESSORS=5
+#
+# ---- Test only: must not be set outside the e2e suite (B55) ----
+# The fake Cloud Storage endpoint; accepted only for http(s)://localhost or
+# http(s)://127.0.0.1, any other value turns export off.
+# BBS_AUDIT_GCS_STORAGE_URL=
+# BBS_AUDIT_GCS_TOKEN_URL=
+# Socket faults that make defensive paths reachable (M4b). Refused, with a
+# warning at start, unless BBS_ALLOW_TEST_FAULTS=1 is set too.
+# BBS_TEST_SOCKET_FAULTS=
+# BBS_ALLOW_TEST_FAULTS=

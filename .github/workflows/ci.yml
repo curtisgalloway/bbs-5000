@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: 2026 Curtis Galloway
+# SPDX-License-Identifier: Apache-2.0
+
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        # node:sqlite needs no flag from 22.13 on; core's unit tests use it.
+        node: ["22", "24"]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      # F: v8 line and branch coverage of the unit tests, printed in the log.
+      # A report, not a gate (no thresholds, and a failure here does not fail CI).
+      - name: Coverage report (not a gate)
+        if: matrix.node == '24'
+        continue-on-error: true
+        run: npm run test:coverage
+
+  e2e:
+    # Starts real `wrangler dev` processes (local only; no Cloudflare account
+    # or network service is used). See test/e2e/harness.ts.
+    runs-on: ubuntu-latest
+    # F added five cross-milestone scenarios (test/e2e/final-*.test.ts), about
+    # 70 s locally on top of about 2 minutes (192 s in all).
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - run: npm run test:e2e
+        env:
+          WRANGLER_SEND_METRICS: "false"
+      # F (B39): the web view's browser check (scripts/web-check.mjs) against a
+      # real `wrangler dev` board, in the runner's preinstalled Google Chrome.
+      # playwright-core is an exact-pinned devDependency installed by `npm ci`
+      # from the lock file (integrity-checked; no install script, no browser
+      # download). Screenshots go to the runner's temp directory.
+      - name: Browser check of the web view
+        run: node scripts/web-check.mjs "$RUNNER_TEMP/web-check"
+        env:
+          BROWSER_CHANNEL: chrome
+          WRANGLER_SEND_METRICS: "false"

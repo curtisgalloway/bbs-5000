@@ -1,0 +1,15 @@
+// SPDX-FileCopyrightText: 2026 Curtis Galloway
+// SPDX-License-Identifier: Apache-2.0
+//
+// Test-only Worker for the e2e suite: checks Durable Object SQL behavior that
+// core relies on (backlog B4, B8). Never part of the board.
+{
+  "name": "bbs-5000-sql-probe",
+  "main": "index.ts",
+  "compatibility_date": "2026-11-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [{ "name": "PROBE", "class_name": "SqlProbe" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["SqlProbe"] }]
+}

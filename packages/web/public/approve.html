@@ -1,0 +1,32 @@
+<!doctype html>
+<!--
+SPDX-FileCopyrightText: 2026 Curtis Galloway
+SPDX-License-Identifier: Apache-2.0
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <title>Approve: BBS-5000</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/approve.js"></script>
+</head>
+<body>
+  <header class="top">
+    <h1>BBS-5000</h1>
+  </header>
+
+  <main>
+    <section id="approve" class="oauth-panel" aria-labelledby="approve-title">
+      <h2 id="approve-title" tabindex="-1">Approve with a security key</h2>
+      <p class="note">A person or program asked this board for something only you may approve.
+        Read what it is, check the code, then use your security key. You need no
+        sign-in on this page.</p>
+      <div id="approval"></div>
+      <p id="approve-result" aria-live="polite"></p>
+    </section>
+  </main>
+</body>
+</html>

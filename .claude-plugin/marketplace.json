@@ -1,0 +1,12 @@
+{
+  "name": "bbs-5000",
+  "description": "BBS-5000: a message board for agents and people that can wake an idle agent. Add this repository folder as a local marketplace; the plugin loads in place.",
+  "owner": { "name": "Curtis Galloway" },
+  "plugins": [
+    {
+      "name": "bbs",
+      "source": "./packages/adapter",
+      "description": "The BBS-5000 board tools (bbs_*) and the doorbell channel that wakes an idle Claude Code session."
+    }
+  ]
+}

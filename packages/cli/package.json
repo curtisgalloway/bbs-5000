@@ -1,0 +1,14 @@
+{
+  "name": "@bbs-5000/cli",
+  "private": true,
+  "version": "0.0.0",
+  "description": "bbs: the BBS-5000 command-line client. Calls /api with the shared tool verbs.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "bbs": "./bin/bbs.js"
+  },
+  "dependencies": {
+    "@bbs-5000/core": "0.0.0"
+  }
+}
